@@ -1,0 +1,267 @@
+{
+    "get_mock_404": {
+        "url": "/mocks/INVALID",
+        "method": "GET",
+        "status": 404,
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        }
+    },
+    "update_mock_404": {
+        "url": "/mocks/INVALID",
+        "method": "PUT",
+        "request": {
+            "name": "mock123",
+            "method": "GET",
+            "path": "/mocks/123",
+            "query_params": {
+                "q": "1",
+                "?opt": "whatever"
+            },
+            "headers": {
+                "Content-Type": "application/json",
+                "?Auth-Key": "blah"
+            },
+            "cookies": {
+                "test": "1",
+                "?blah": "321"
+            },
+            "response_body": {
+                "some": "thing"
+            },
+            "response_status": 200,
+            "response_headers": {
+                "header1": "abc"
+            }
+        },
+        "status": 404,
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        },
+        "response_headers": {
+            "content-length": "65",
+            "content-type": "application/json"
+        }
+    },
+    "delete_mock_404": {
+        "url": "/mocks/INVALID",
+        "method": "DELETE",
+        "status": 404,
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        }
+    },
+    "create_mock": {
+        "url": "/mocks",
+        "method": "PUT",
+        "request": {
+            "name": "mock123",
+            "method": "GET",
+            "path": "/mocks/123",
+            "query_params": {
+                "q": "1",
+                "?opt": "whatever"
+            },
+            "headers": {
+                "Content-Type": "application/json",
+                "?Auth-Key": "blah"
+            },
+            "cookies": {
+                "test": "1",
+                "?blah": "321"
+            },
+            "response_body": {
+                "some": "thing"
+            },
+            "response_status": 200,
+            "response_headers": {
+                "header1": "abc"
+            }
+        },
+        "response": {
+            "success": true
+        },
+        "status": 201,
+        "response_headers": {
+            "content-length": "16",
+            "content-type": "application/json"
+        }
+    },
+    "create_mock_with_handler": {
+        "url": "/mocks",
+        "method": "PUT",
+        "request": {
+            "name": "mock345",
+            "method": "GET",
+            "path": "/mocks/345",
+            "query_params": {
+                "q": "1",
+                "?opt": "whatever"
+            },
+            "headers": {
+                "Content-Type": "application/json",
+                "?Auth-Key": "blah"
+            },
+            "cookies": {
+                "test": "1",
+                "?blah": "321"
+            },
+            "response_handler": "response = { 'body': 'test!', 'status': 201, 'headers': { 'header1': 'abc' }  }"
+        },
+        "response": {
+            "success": true
+        },
+        "status": 201,
+        "response_headers": {
+            "content-length": "16",
+            "content-type": "application/json"
+        }
+    },
+    "get_mock": {
+        "url": "/mocks/mock123",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "name": "mock123",
+            "method": "GET",
+            "path": "/mocks/123",
+            "query_params": {
+                "q": "1",
+                "?opt": "whatever"
+            },
+            "headers": {
+                "Content-Type": "application/json",
+                "?Auth-Key": "blah"
+            },
+            "cookies": {
+                "test": "1",
+                "?blah": "321"
+            },
+            "response_body": {
+                "some": "thing"
+            },
+            "response_handler": null,
+            "response_status": 200,
+            "response_headers": {
+                "header1": "abc"
+            }
+        },
+        "response_headers": {
+            "content-length": "314",
+            "content-type": "application/json"
+        }
+    },
+    "update_mock": {
+        "url": "/mocks/mock123",
+        "method": "PUT",
+        "request": {
+            "name": "mock123",
+            "method": "GET",
+            "path": "/mocks/123",
+            "query_params": {
+                "q": "1",
+                "?opt": "whatever"
+            },
+            "headers": {
+                "Content-Type": "application/json",
+                "?Auth-Key": "blah"
+            },
+            "cookies": {
+                "test": "1",
+                "?blah": "321"
+            },
+            "response_body": {
+                "some": "thing"
+            },
+            "response_status": 200,
+            "response_headers": {
+                "header1": "abc"
+            }
+        },
+        "response": {
+            "success": true
+        },
+        "status": 200,
+        "response_headers": {
+            "content-length": "16",
+            "content-type": "application/json"
+        }
+    },
+    "get_mocks": {
+        "url": "/mocks",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "mocks": [
+                {
+                    "name": "mock123",
+                    "method": "GET",
+                    "path": "/mocks/123",
+                    "query_params": {
+                        "q": "1",
+                        "?opt": "whatever"
+                    },
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "?Auth-Key": "blah"
+                    },
+                    "cookies": {
+                        "test": "1",
+                        "?blah": "321"
+                    },
+                    "response_body": {
+                        "some": "thing"
+                    },
+                    "response_handler": null,
+                    "response_status": 200,
+                    "response_headers": {
+                        "header1": "abc"
+                    }
+                }
+            ]
+        },
+        "response_headers": {
+            "content-length": "326",
+            "content-type": "application/json"
+        }
+    },
+    "delete_mock": {
+        "url": "/mocks/mock123",
+        "method": "DELETE",
+        "response": {
+            "success": true
+        },
+        "status": 200,
+        "response_headers": {
+            "content-length": "16",
+            "content-type": "application/json"
+        }
+    },
+    "delete_mock_with_handler": {
+        "url": "/mocks/mock345",
+        "method": "DELETE",
+        "response": {
+            "success": true
+        },
+        "status": 200,
+        "response_headers": {
+            "content-length": "16",
+            "content-type": "application/json"
+        }
+    }
+}

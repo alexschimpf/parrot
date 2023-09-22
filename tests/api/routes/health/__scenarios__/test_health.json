@@ -1,0 +1,12 @@
+{
+    "test_get_health__200": {
+        "url": "/health",
+        "method": "GET",
+        "status": 200,
+        "response_headers": {
+            "content-type": "text/plain; charset=utf-8",
+            "content-length": "2"
+        },
+        "response": "Ok"
+    }
+}

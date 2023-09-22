@@ -1,0 +1,15 @@
+-r requirements.txt
+
+flake8==5.0.4
+flake8-builtins==2.1.0
+flake8-comprehensions==3.13.0
+flake8-eradicate==1.4.0
+flake8-length==0.3.1
+flake8-quotes==3.3.2
+flake8-use-fstring==1.4
+httpx==0.25.0
+mypy==1.5.1
+pre-commit==2.21.0
+pytest==7.0.1
+pytest-cov==4.1.0
+rest-api-tester==2.0.4

@@ -1,0 +1,103 @@
+{
+    "match_none": {
+        "url": "/match/mocks/123",
+        "method": "GET",
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        },
+        "status": 404,
+        "response_headers": {
+            "content-length": "65",
+            "content-type": "application/json"
+        }
+    },
+    "match_none2": {
+        "url": "/match/mocks/123?q=1&opt=whatever",
+        "method": "GET",
+        "headers": {
+            "Content-Type": "application/json",
+            "Auth-Key": "INVALID"
+        },
+        "cookies": {
+            "test": "1",
+            "blah": "321"
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        },
+        "status": 404,
+        "response_headers": {
+            "content-length": "65",
+            "content-type": "application/json"
+        }
+    },
+    "match": {
+        "url": "/match/mocks/123?q=1&opt=whatever",
+        "method": "GET",
+        "headers": {
+            "Content-Type": "application/json",
+            "Auth-Key": "blah"
+        },
+        "cookies": {
+            "test": "1",
+            "blah": "321"
+        },
+        "response": {
+            "some": "thing"
+        },
+        "status": 200,
+        "response_headers": {
+            "content-length": "17",
+            "content-type": "application/json",
+            "header1": "abc"
+        }
+    },
+    "match2": {
+        "url": "/match/mocks/123?q=1",
+        "method": "GET",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "cookies": {
+            "test": "1"
+        },
+        "response": {
+            "some": "thing"
+        },
+        "status": 200,
+        "response_headers": {
+            "content-length": "17",
+            "content-type": "application/json",
+            "header1": "abc"
+        }
+    },
+    "match_with_handler": {
+        "url": "/match/mocks/345?q=1&opt=whatever",
+        "method": "GET",
+        "headers": {
+            "Content-Type": "application/json",
+            "Auth-Key": "blah"
+        },
+        "cookies": {
+            "test": "1",
+            "blah": "321"
+        },
+        "status": 201,
+        "response": "test!",
+        "response_headers": {
+            "header1": "abc",
+            "content-type": "plain/text",
+            "content-length": "5"
+        }
+    }
+}
