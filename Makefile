@@ -23,15 +23,15 @@ help:
 
 # run all tests with coverage
 run-tests:
-	MOCKS_BASE_PATH=./.boot PYTHONPATH=. pytest --cov=app --cov-fail-under=80 --no-cov-on-fail tests/
+	PYTHONPATH=. pytest --cov=app --cov-fail-under=80 --no-cov-on-fail tests/
 
 # run unit tests
 run-unit-tests:
-	MOCKS_BASE_PATH=./.boot PYTHONPATH=. pytest tests/unit/*
+	PYTHONPATH=. pytest tests/unit/*
 
 # run api tests
 run-api-tests:
-	MOCKS_BASE_PATH=./.boot PYTHONPATH=. pytest tests/api/*
+	PYTHONPATH=. pytest tests/api/*
 
 # run app docker container
 run-docker:

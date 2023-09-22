@@ -1,4 +1,5 @@
 import json
+from typing import Any
 from fastapi import Request, Response, APIRouter
 
 from app.service.mock.mock_matcher import MockMatcher
@@ -17,7 +18,7 @@ router = APIRouter(
 @router.delete('/{path:path}')
 @router.options('/{path:path}')
 @router.head('/{path:path}')
-def get_mock_match(request: Request, path: str) -> Response:
+async def get_mock_match(request: Request, path: str) -> Response:
     path = request.url.path.replace('/match', '')
     mock = MockMatcher.get_matching_mock(
         method=request.method,
@@ -31,8 +32,20 @@ def get_mock_match(request: Request, path: str) -> Response:
 
     if mock.response_handler:
         program = compile(mock.response_handler, '', 'exec')
-        exec(program)
-        response_ = locals().get('response')
+        globals_ = {
+            'json': json
+        }
+        locals_ = {
+            'method': request.method,
+            'path': path,
+            'query_params': request.query_params,
+            'headers': request.headers,
+            'cookies': request.cookies,
+            'body': await request.body(),
+            'response': None
+        }
+        exec(program, globals_, locals_)
+        response_: Any = locals_['response']
 
         if not response_:
             raise InvalidResponseHandlerException
