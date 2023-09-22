@@ -63,7 +63,7 @@ class MatchRouteTestCase(TestCase):
     def delete_mock_with_handler(self) -> None:
         self._run_test(test_name='delete_mock_with_handler', is_crud=True)
 
-    def _run_test(self, test_name: str, is_crud=False) -> None:
+    def _run_test(self, test_name: str, is_crud: bool = False) -> None:
         if is_crud:
             result = self.crud_runner.run(
                 path_to_test_cases='test_mocks.json',

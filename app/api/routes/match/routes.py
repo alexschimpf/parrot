@@ -1,5 +1,4 @@
 import json
-from typing import Any
 from fastapi import Request, Response, APIRouter
 
 from app.service.mock.mock_matcher import MockMatcher

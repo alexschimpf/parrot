@@ -23,15 +23,19 @@ help:
 
 # run all tests with coverage
 run-tests:
-	PYTHONPATH=. pytest --cov=app --cov-fail-under=80 --no-cov-on-fail tests/
+	MOCKS_BASE_PATH=./.boot PYTHONPATH=. pytest --cov=app --cov-fail-under=80 --no-cov-on-fail tests/
 
 # run unit tests
 run-unit-tests:
-	PYTHONPATH=. pytest tests/unit/*
+	MOCKS_BASE_PATH=./.boot PYTHONPATH=. pytest tests/unit/*
 
 # run api tests
 run-api-tests:
-	PYTHONPATH=. pytest tests/api/*
+	MOCKS_BASE_PATH=./.boot PYTHONPATH=. pytest tests/api/*
+
+# run app docker container
+run-docker:
+	docker build -t parrot . && docker run -p 8000:80 parrot
 
 # type check python
 type-check:
@@ -39,7 +43,7 @@ type-check:
 
 # lint
 lint:
-	flake8 rest_api_tester tests
+	flake8 app tests
 
 # install dev dependencies
 install-dev:

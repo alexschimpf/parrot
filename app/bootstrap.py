@@ -47,7 +47,7 @@ class Bootstrap:
         )
 
     @staticmethod
-    def _init_services():
+    def _init_services() -> None:
         MockManager.load_mocks()
 
     @staticmethod

@@ -27,6 +27,8 @@ class MockMatcher:
             ):
                 return mock
 
+        return None
+
     @classmethod
     def _mock_matches_request(
         cls,
@@ -36,7 +38,7 @@ class MockMatcher:
         query_params: QueryParams,
         headers: Headers,
         cookies: dict[str, str]
-    ):
+    ) -> bool:
         return all((
             mock.path == path,
             mock.method.lower() == method.lower(),

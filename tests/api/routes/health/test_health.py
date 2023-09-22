@@ -9,7 +9,7 @@ from tests.api.client import TestClient
 
 class HealthRouteTestCase(TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         app = Bootstrap().run()
         test_client = TestClient(app=app)
         path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
@@ -19,7 +19,7 @@ class HealthRouteTestCase(TestCase):
         )
         super().setUp()
 
-    def test_get_health__200(self):
+    def test_get_health__200(self) -> None:
         result = self.runner.run(
             path_to_test_cases='test_health.json',
             test_name='test_get_health__200'

@@ -7,7 +7,7 @@ repos:
       - id: check-merge-conflict
       - id: end-of-file-fixer
       - id: trailing-whitespace
-      - id: no-commit-to-branch
+#      - id: no-commit-to-branch
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v9.5.0
     hooks:

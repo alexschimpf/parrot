@@ -5,34 +5,36 @@ from typing import Final, Any
 from dataclasses import dataclass, asdict
 from copy import deepcopy
 
+from app import config
+
 
 @dataclass
 class Mock:
     name: str
     method: str
     path: str
-    query_params: dict[str, str] | None
-    headers: dict[str, str] | None
-    cookies: dict[str, str] | None
-    response_body: Any
-    response_handler: str | None
-    response_status: int
-    response_headers: dict[str, str] | None
+    query_params: dict[str, str] | None = None
+    headers: dict[str, str] | None = None
+    cookies: dict[str, str] | None = None
+    response_body: Any = None
+    response_handler: str | None = None
+    response_status: int | None = None
+    response_headers: dict[str, str] | None = None
 
 
 class MockManager:
 
-    _app_path: Final[str] = '/Users/alexschimpf/parrot'
-    _mocks_dir: Final[str] = '/Users/alexschimpf/parrot/mocks'
-    _handlers_dir: Final[str] = '/Users/alexschimpf/parrot/handlers'
-    _mocks_config_file_path: Final[str] = '/Users/alexschimpf/parrot/mocks.json'
+    _app_path: Final[str] = config.MOCKS_BASE_PATH
+    _mocks_dir: Final[str] = os.path.join(config.MOCKS_BASE_PATH, 'mocks')
+    _handlers_dir: Final[str] = os.path.join(config.MOCKS_BASE_PATH, 'handlers')
+    _mocks_config_file_path: Final[str] = os.path.join(config.MOCKS_BASE_PATH, 'mocks.json')
     _mocks_by_name: Final[dict[str, Mock]] = {}
 
     @classmethod
     def load_mocks(cls) -> None:
         cls._load_mock_file(file_path=cls._mocks_config_file_path, ignore_missing_file=True)
 
-        mock_file_paths = map(lambda p: p.absolute(), Path(cls._mocks_dir).rglob('*.json'))
+        mock_file_paths = (str(p.absolute()) for p in Path(cls._mocks_dir).rglob('*.json'))
         for mock_file_path in mock_file_paths:
             cls._load_mock_file(file_path=mock_file_path, ignore_missing_file=False)
 
@@ -50,7 +52,7 @@ class MockManager:
         return existed
 
     @classmethod
-    def remove_mock(cls, name: str, persist=True) -> None:
+    def remove_mock(cls, name: str, persist: bool = True) -> None:
         del cls._mocks_by_name[name]
 
         if persist:
@@ -66,7 +68,7 @@ class MockManager:
         return list(mocks_by_name.values())
 
     @classmethod
-    def get_mock(cls, name: str) -> Mock:
+    def get_mock(cls, name: str) -> Mock | None:
         mocks_by_name = cls.get_mocks_by_name()
         return mocks_by_name.get(name)
 
@@ -85,7 +87,7 @@ class MockManager:
             mock_config_fh.write(serialized_mocks)
 
     @classmethod
-    def _load_mock_file(cls, file_path, ignore_missing_file) -> None:
+    def _load_mock_file(cls, file_path: str, ignore_missing_file: bool) -> None:
         if not os.path.exists(file_path) and ignore_missing_file:
             return
 
