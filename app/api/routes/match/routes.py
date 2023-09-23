@@ -37,7 +37,7 @@ async def get_mock_match(request: Request, path: str) -> Response:
         }
         locals_ = {
             'method': request.method,
-            'path': path,
+            'path': f'/{path}',
             'query_params': request.query_params,
             'headers': request.headers,
             'cookies': request.cookies,
