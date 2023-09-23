@@ -7,7 +7,8 @@ from app.api.exceptions.exceptions import NotFoundException, InvalidResponseHand
 
 router = APIRouter(
     prefix='/match',
-    tags=['match']
+    tags=['match'],
+    include_in_schema=False
 )
 
 
@@ -19,7 +20,6 @@ router = APIRouter(
 @router.options('/{path:path}')
 @router.head('/{path:path}')
 async def get_mock_match(request: Request, path: str) -> Response:
-    path = request.url.path.replace('/match', '')
     mock = MockMatcher.get_matching_mock(
         method=request.method,
         path=path,

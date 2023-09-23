@@ -39,6 +39,9 @@ class MockMatcher:
         headers: Headers,
         cookies: dict[str, str]
     ) -> bool:
+        mock.path = cls._normalize_path(path=mock.path)
+        path = cls._normalize_path(path=path)
+
         return all((
             mock.path == path,
             mock.method.lower() == method.lower(),
@@ -94,3 +97,9 @@ class MockMatcher:
             return False
 
         return True
+
+    @staticmethod
+    def _normalize_path(path: str) -> str:
+        if path.startswith('/'):
+            path = path[1:]
+        return path

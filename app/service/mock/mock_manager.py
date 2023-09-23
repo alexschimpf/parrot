@@ -92,9 +92,9 @@ class MockManager:
             return
 
         with open(file_path, 'r') as mock_fh:
-            raw_mock_data = mock_fh.read()
-            if raw_mock_data:
-                mock_data = json.loads(raw_mock_data)
+            mock_data_str = mock_fh.read()
+            if mock_data_str:
+                mock_data = json.loads(mock_data_str)
                 for mock_name, mock_item in mock_data.items():
                     response_handler = mock_item.get('response_handler')
                     if response_handler and response_handler.startswith('file::'):
