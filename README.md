@@ -3,7 +3,7 @@
 ### Summary
 <hr>
 
-Parrot is a simple mock server.
+Parrot is a simple mock server, mainly intended for dev/CI use.
 You can configure Parrot to return mock responses based on given request data.
 For example, you could configure it to behave like so:
 

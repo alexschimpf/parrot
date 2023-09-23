@@ -1,0 +1,19 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: "jq .version package.json -r"
+      - run: |
+          docker login -u alexschimpf -p ${{ secrets.DOCKER_TOKEN }} && \
+            docker build . -t alexschimpf/parrot:latest -t alexschimpf/parrot:${{ steps.version.outputs.value }} && \
+            docker push alexschimpf/parrot:${{ steps.version.outputs.value }} && \
+            docker push alexschimpf/parrot:latest
