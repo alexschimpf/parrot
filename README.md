@@ -1,5 +1,4 @@
 ## Parrot 🦜
-<hr>
 
 ### Summary
 <hr>
@@ -136,16 +135,12 @@ Here is an example mock rule JSON file:
         - External Python files can only be loaded this way. They cannot be added to Parrot via the API.
       - More details can be found below in the *Dynamic Response Handlers* section.
 
-<br>
-
 #### API
 <hr>
 
 The API swagger docs can be found at: http://127.0.0.1:5000/docs (or whatever port you chose).
 There are various CRUD endpoints for adding, removing, and viewing mock rules.
 Mock rules are written to a JSON file on disk in the container.
-
-<br>
 
 #### Bind Mounts
 <hr>
