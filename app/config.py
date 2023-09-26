@@ -2,5 +2,5 @@ import os
 from typing import cast
 
 
-MOCKS_BASE_PATH: str = cast(str, os.getenv('MOCKS_BASE_PATH', '.boot'))
-assert MOCKS_BASE_PATH
+RULES_BASE_PATH: str = cast(str, os.getenv('RULES_BASE_PATH', '.boot'))
+assert RULES_BASE_PATH

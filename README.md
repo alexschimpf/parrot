@@ -52,7 +52,7 @@ You can view the API docs at: http://127.0.0.1:5000/docs.
 
 If you want to load your own mock rules into the container, you can do so via bind mounts:
 ```shell
-$ docker run -p 5000:80 -v <mocks-dir>:/parrot/mocks -v <handlers-dir>:/parrot/handlers alexschimpf/parrot
+$ docker run -p 5000:80 -v <rules-dir>:/parrot/rules -v <handlers-dir>:/parrot/handlers alexschimpf/parrot
 ```
 This will bind directories on your local file system to directories in the Parrot container.
 
@@ -152,7 +152,7 @@ There are 2 directories which can be mounted to:
     - This is described in more details below in the *Dynamic Response Handlers* section
     - These files are to be referenced by mock rules
     - These files should typically have the `.py` extension
-- /parrot/mocks
+- /parrot/rules
     - This is for JSON mock rule files as described in the *Specs* section
     - These files should typically have the `.json` extension
 

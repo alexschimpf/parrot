@@ -2,26 +2,25 @@ from unittest import TestCase
 from unittest import mock
 from starlette.datastructures import QueryParams, Headers
 
-from app.service.mock.mock_matcher import MockMatcher
-from app.service.mock.mock_manager import MockManager
-from app.service.mock.mock_manager import Mock
+from app.service.rule_matcher import RuleMatcher
+from app.service.rule_manager import RuleManager, Rule
 
 
-class TestMockMatcher(TestCase):
+class TestRuleMatcher(TestCase):
 
-    def test_get_matching_mock__no_match(self) -> None:
-        get_mocks_return_value = [
-            Mock(
+    def test_get_matching_rule__no_match(self) -> None:
+        get_rules_return_value = [
+            Rule(
                 name='test',
                 method='GET',
                 path='something_else'
             )
         ]
         with (
-            mock.patch.object(MockManager, 'get_mocks', return_value=get_mocks_return_value),
-            mock.patch.object(MockMatcher, '_mock_matches_request', return_value=False)
+            mock.patch.object(RuleManager, 'get_rules', return_value=get_rules_return_value),
+            mock.patch.object(RuleMatcher, '_rule_matches_request', return_value=False)
         ):
-            actual = MockMatcher.get_matching_mock(
+            actual = RuleMatcher.get_matching_rule(
                 method='GET',
                 path='/something',
                 query_params=QueryParams(
@@ -36,19 +35,19 @@ class TestMockMatcher(TestCase):
             )
             self.assertIsNone(actual)
 
-    def test_get_matching_mock(self) -> None:
-        get_mocks_return_value = [
-            Mock(
+    def test_get_matching_rule(self) -> None:
+        get_rules_return_value = [
+            Rule(
                 name='test',
                 method='GET',
                 path='something'
             )
         ]
         with (
-            mock.patch.object(MockManager, 'get_mocks', return_value=get_mocks_return_value),
-            mock.patch.object(MockMatcher, '_mock_matches_request', return_value=True)
+            mock.patch.object(RuleManager, 'get_rules', return_value=get_rules_return_value),
+            mock.patch.object(RuleMatcher, '_rule_matches_request', return_value=True)
         ):
-            actual = MockMatcher.get_matching_mock(
+            actual = RuleMatcher.get_matching_rule(
                 method='GET',
                 path='/something',
                 query_params=QueryParams(
@@ -61,23 +60,23 @@ class TestMockMatcher(TestCase):
                     'some': 'cookie'
                 }
             )
-            expected = get_mocks_return_value[0]
+            expected = get_rules_return_value[0]
             self.assertEqual(expected, actual)
 
-    def test_mock_matches_request__true(self) -> None:
+    def test_rule_matches_request__true(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_normalize_path', return_value='something'),
-            mock.patch.object(MockMatcher, '_query_params_match', return_value=True),
-            mock.patch.object(MockMatcher, '_headers_match', return_value=True),
-            mock.patch.object(MockMatcher, '_cookies_match', return_value=True)
+            mock.patch.object(RuleMatcher, '_normalize_path', return_value='something'),
+            mock.patch.object(RuleMatcher, '_query_params_match', return_value=True),
+            mock.patch.object(RuleMatcher, '_headers_match', return_value=True),
+            mock.patch.object(RuleMatcher, '_cookies_match', return_value=True)
         ):
-            mock_ = Mock(
+            rule = Rule(
                 name='test',
                 method='GET',
                 path='something'
             )
-            actual = MockMatcher._mock_matches_request(
-                mock=mock_,
+            actual = RuleMatcher._rule_matches_request(
+                rule=rule,
                 method='GET',
                 path='something',
                 query_params=QueryParams(),
@@ -86,20 +85,20 @@ class TestMockMatcher(TestCase):
             )
             self.assertTrue(actual)
 
-    def test_mock_matches_request__wrong_path(self) -> None:
+    def test_rule_matches_request__wrong_path(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_normalize_path', return_value='something'),
-            mock.patch.object(MockMatcher, '_query_params_match', return_value=True),
-            mock.patch.object(MockMatcher, '_headers_match', return_value=True),
-            mock.patch.object(MockMatcher, '_cookies_match', return_value=True)
+            mock.patch.object(RuleMatcher, '_normalize_path', return_value='something'),
+            mock.patch.object(RuleMatcher, '_query_params_match', return_value=True),
+            mock.patch.object(RuleMatcher, '_headers_match', return_value=True),
+            mock.patch.object(RuleMatcher, '_cookies_match', return_value=True)
         ):
-            mock_ = Mock(
+            rule = Rule(
                 name='test',
                 method='POST',
                 path='something'
             )
-            actual = MockMatcher._mock_matches_request(
-                mock=mock_,
+            actual = RuleMatcher._rule_matches_request(
+                rule=rule,
                 method='GET',
                 path='something',
                 query_params=QueryParams(),
@@ -109,8 +108,8 @@ class TestMockMatcher(TestCase):
             self.assertFalse(actual)
 
     def test_query_params_match__no_params(self) -> None:
-        actual = MockMatcher._query_params_match(
-            mock=Mock(
+        actual = RuleMatcher._query_params_match(
+            rule=Rule(
                 name='test',
                 method='GET',
                 path='something'
@@ -123,10 +122,10 @@ class TestMockMatcher(TestCase):
 
     def test_query_params_match__true(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_matches_regex', return_value=True)
+            mock.patch.object(RuleMatcher, '_matches_regex', return_value=True)
         ):
-            actual = MockMatcher._query_params_match(
-                mock=Mock(
+            actual = RuleMatcher._query_params_match(
+                rule=Rule(
                     name='test',
                     method='GET',
                     path='something',
@@ -142,10 +141,10 @@ class TestMockMatcher(TestCase):
 
     def test_query_params_match__false(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_matches_regex', return_value=False)
+            mock.patch.object(RuleMatcher, '_matches_regex', return_value=False)
         ):
-            actual = MockMatcher._query_params_match(
-                mock=Mock(
+            actual = RuleMatcher._query_params_match(
+                rule=Rule(
                     name='test',
                     method='GET',
                     path='something',
@@ -160,8 +159,8 @@ class TestMockMatcher(TestCase):
             self.assertFalse(actual)
 
     def test_headers_match__no_headers(self) -> None:
-        actual = MockMatcher._headers_match(
-            mock=Mock(
+        actual = RuleMatcher._headers_match(
+            rule=Rule(
                 name='test',
                 method='GET',
                 path='something'
@@ -174,10 +173,10 @@ class TestMockMatcher(TestCase):
 
     def test_headers_match__true(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_matches_regex', return_value=True)
+            mock.patch.object(RuleMatcher, '_matches_regex', return_value=True)
         ):
-            actual = MockMatcher._headers_match(
-                mock=Mock(
+            actual = RuleMatcher._headers_match(
+                rule=Rule(
                     name='test',
                     method='GET',
                     path='something',
@@ -193,10 +192,10 @@ class TestMockMatcher(TestCase):
 
     def test_headers_match__false(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_matches_regex', return_value=False)
+            mock.patch.object(RuleMatcher, '_matches_regex', return_value=False)
         ):
-            actual = MockMatcher._headers_match(
-                mock=Mock(
+            actual = RuleMatcher._headers_match(
+                rule=Rule(
                     name='test',
                     method='GET',
                     path='something',
@@ -211,8 +210,8 @@ class TestMockMatcher(TestCase):
             self.assertFalse(actual)
 
     def test_cookies_match__no_cookies(self) -> None:
-        actual = MockMatcher._cookies_match(
-            mock=Mock(
+        actual = RuleMatcher._cookies_match(
+            rule=Rule(
                 name='test',
                 method='GET',
                 path='something'
@@ -225,10 +224,10 @@ class TestMockMatcher(TestCase):
 
     def test_cookies_match__true(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_matches_regex', return_value=True)
+            mock.patch.object(RuleMatcher, '_matches_regex', return_value=True)
         ):
-            actual = MockMatcher._cookies_match(
-                mock=Mock(
+            actual = RuleMatcher._cookies_match(
+                rule=Rule(
                     name='test',
                     method='GET',
                     path='something',
@@ -244,10 +243,10 @@ class TestMockMatcher(TestCase):
 
     def test_cookies_match__false(self) -> None:
         with (
-            mock.patch.object(MockMatcher, '_matches_regex', return_value=False)
+            mock.patch.object(RuleMatcher, '_matches_regex', return_value=False)
         ):
-            actual = MockMatcher._cookies_match(
-                mock=Mock(
+            actual = RuleMatcher._cookies_match(
+                rule=Rule(
                     name='test',
                     method='GET',
                     path='something',
@@ -262,7 +261,7 @@ class TestMockMatcher(TestCase):
             self.assertFalse(actual)
 
     def test_matches_regex__optional_true(self) -> None:
-        actual = MockMatcher._matches_regex(
+        actual = RuleMatcher._matches_regex(
             key='?q',
             value='^1.+$',
             actual=Headers({
@@ -272,7 +271,7 @@ class TestMockMatcher(TestCase):
         self.assertTrue(actual)
 
     def test_matches_regex__optional_missing_true(self) -> None:
-        actual = MockMatcher._matches_regex(
+        actual = RuleMatcher._matches_regex(
             key='?q',
             value='1',
             actual=QueryParams()
@@ -280,7 +279,7 @@ class TestMockMatcher(TestCase):
         self.assertTrue(actual)
 
     def test_matches_regex__optional_false(self) -> None:
-        actual = MockMatcher._matches_regex(
+        actual = RuleMatcher._matches_regex(
             key='?q',
             value='1',
             actual={
@@ -290,7 +289,7 @@ class TestMockMatcher(TestCase):
         self.assertFalse(actual)
 
     def test_matches_regex__required_true(self) -> None:
-        actual = MockMatcher._matches_regex(
+        actual = RuleMatcher._matches_regex(
             key='q',
             value='^\\d+[a-z]+$',
             actual=QueryParams(
@@ -300,7 +299,7 @@ class TestMockMatcher(TestCase):
         self.assertTrue(actual)
 
     def test_matches_regex__required_false(self) -> None:
-        actual = MockMatcher._matches_regex(
+        actual = RuleMatcher._matches_regex(
             key='q',
             value='1',
             actual=Headers({
@@ -310,7 +309,7 @@ class TestMockMatcher(TestCase):
         self.assertFalse(actual)
 
     def test_matches_regex__required_missing_false(self) -> None:
-        actual = MockMatcher._matches_regex(
+        actual = RuleMatcher._matches_regex(
             key='q',
             value='1',
             actual={}
@@ -318,9 +317,9 @@ class TestMockMatcher(TestCase):
         self.assertFalse(actual)
 
     def test_normalize_path__with_slash(self) -> None:
-        actual = MockMatcher._normalize_path(path='/path')
+        actual = RuleMatcher._normalize_path(path='/path')
         self.assertEqual('path', actual)
 
     def test_normalize_path__without_slash(self) -> None:
-        actual = MockMatcher._normalize_path(path='path')
+        actual = RuleMatcher._normalize_path(path='path')
         self.assertEqual('path', actual)

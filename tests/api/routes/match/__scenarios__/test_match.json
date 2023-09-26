@@ -1,6 +1,6 @@
 {
     "match_none": {
-        "url": "/match/mocks/123",
+        "url": "/match/rules/123",
         "method": "GET",
         "response": {
             "errors": [
@@ -17,7 +17,7 @@
         }
     },
     "match_none2": {
-        "url": "/match/mocks/123?q=1&opt=whatever",
+        "url": "/match/rules/123?q=1&opt=whatever",
         "method": "GET",
         "headers": {
             "Content-Type": "application/json",
@@ -42,7 +42,7 @@
         }
     },
     "match": {
-        "url": "/match/mocks/123?q=1&opt=whatever",
+        "url": "/match/rules/123?q=1&opt=whatever",
         "method": "GET",
         "headers": {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@
         }
     },
     "match2": {
-        "url": "/match/mocks/123?q=1",
+        "url": "/match/rules/123?q=1",
         "method": "GET",
         "headers": {
             "Content-Type": "application/json"
@@ -82,7 +82,7 @@
         }
     },
     "match_with_handler": {
-        "url": "/match/mocks/345?q=1&opt=whatever",
+        "url": "/match/rules/345?q=1&opt=whatever",
         "method": "GET",
         "headers": {
             "Content-Type": "application/json",

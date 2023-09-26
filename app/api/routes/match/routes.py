@@ -2,7 +2,7 @@ import json
 from typing import Any
 from fastapi import Request, Response, APIRouter
 
-from app.service.mock.mock_matcher import MockMatcher
+from app.service.rule_matcher import RuleMatcher
 from app.api.exceptions.exceptions import NotFoundException, InvalidResponseHandlerException
 
 router = APIRouter(
@@ -19,19 +19,19 @@ router = APIRouter(
 @router.delete('/{path:path}')
 @router.options('/{path:path}')
 @router.head('/{path:path}')
-async def get_mock_match(request: Request, path: str) -> Response:
-    mock = MockMatcher.get_matching_mock(
+async def get_mock_response(request: Request, path: str) -> Response:
+    rule = RuleMatcher.get_matching_rule(
         method=request.method,
         path=path,
         query_params=request.query_params,
         headers=request.headers,
         cookies=request.cookies
     )
-    if not mock:
+    if not rule:
         raise NotFoundException
 
-    if mock.response_handler:
-        program = compile(mock.response_handler, '', 'exec')
+    if rule.response_handler:
+        program = compile(rule.response_handler, '', 'exec')
         globals_ = {
             'json': json
         }
@@ -50,20 +50,20 @@ async def get_mock_match(request: Request, path: str) -> Response:
         if not response_:
             raise InvalidResponseHandlerException
 
-        mock.response_body = response_['body']
-        mock.response_status = response_.get('status', mock.response_status)
-        mock.response_headers = response_.get('headers', mock.response_headers)
+        rule.response_body = response_['body']
+        rule.response_status = response_.get('status', rule.response_status)
+        rule.response_headers = response_.get('headers', rule.response_headers)
 
-    if not mock.response_headers:
-        mock.response_headers = {}
-    if isinstance(mock.response_body, (list, dict)):
-        mock.response_body = json.dumps(mock.response_body)
-        mock.response_headers['Content-Type'] = 'application/json'
-    if not mock.response_headers.get('Content-Type'):
-        mock.response_headers['Content-Type'] = 'plain/text'
+    if not rule.response_headers:
+        rule.response_headers = {}
+    if isinstance(rule.response_body, (list, dict)):
+        rule.response_body = json.dumps(rule.response_body)
+        rule.response_headers['Content-Type'] = 'application/json'
+    if not rule.response_headers.get('Content-Type'):
+        rule.response_headers['Content-Type'] = 'plain/text'
 
     return Response(
-        content=mock.response_body,
-        status_code=mock.response_status or 200,
-        headers=mock.response_headers
+        content=rule.response_body,
+        status_code=rule.response_status or 200,
+        headers=rule.response_headers
     )

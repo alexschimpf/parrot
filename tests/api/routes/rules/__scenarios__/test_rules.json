@@ -1,6 +1,6 @@
 {
-    "get_mock_404": {
-        "url": "/mocks/INVALID",
+    "get_rule_404": {
+        "url": "/rules/INVALID",
         "method": "GET",
         "status": 404,
         "response": {
@@ -12,13 +12,13 @@
             ]
         }
     },
-    "update_mock_404": {
-        "url": "/mocks/INVALID",
+    "update_rule_404": {
+        "url": "/rules/INVALID",
         "method": "PUT",
         "request": {
-            "name": "mock123",
+            "name": "rule123",
             "method": "GET",
-            "path": "/mocks/123",
+            "path": "/rules/123",
             "query_params": {
                 "q": "1",
                 "?opt": "whatever"
@@ -53,8 +53,8 @@
             "content-type": "application/json"
         }
     },
-    "delete_mock_404": {
-        "url": "/mocks/INVALID",
+    "delete_rule_404": {
+        "url": "/rules/INVALID",
         "method": "DELETE",
         "status": 404,
         "response": {
@@ -66,13 +66,13 @@
             ]
         }
     },
-    "create_mock": {
-        "url": "/mocks",
+    "create_rule": {
+        "url": "/rules",
         "method": "PUT",
         "request": {
-            "name": "mock123",
+            "name": "rule123",
             "method": "GET",
-            "path": "/mocks/123",
+            "path": "/rules/123",
             "query_params": {
                 "q": "1",
                 "?opt": "whatever"
@@ -102,13 +102,13 @@
             "content-type": "application/json"
         }
     },
-    "create_mock_with_handler": {
-        "url": "/mocks",
+    "create_rule_with_handler": {
+        "url": "/rules",
         "method": "PUT",
         "request": {
-            "name": "mock345",
+            "name": "rule345",
             "method": "GET",
-            "path": "/mocks/345",
+            "path": "/rules/345",
             "query_params": {
                 "q": "1",
                 "?opt": "whatever"
@@ -132,14 +132,14 @@
             "content-type": "application/json"
         }
     },
-    "get_mock": {
-        "url": "/mocks/mock123",
+    "get_rule": {
+        "url": "/rules/rule123",
         "method": "GET",
         "status": 200,
         "response": {
-            "name": "mock123",
+            "name": "rule123",
             "method": "GET",
-            "path": "/mocks/123",
+            "path": "/rules/123",
             "query_params": {
                 "q": "1",
                 "?opt": "whatever"
@@ -166,13 +166,13 @@
             "content-type": "application/json"
         }
     },
-    "update_mock": {
-        "url": "/mocks/mock123",
+    "update_rule": {
+        "url": "/rules/rule123",
         "method": "PUT",
         "request": {
-            "name": "mock123",
+            "name": "rule123",
             "method": "GET",
-            "path": "/mocks/123",
+            "path": "/rules/123",
             "query_params": {
                 "q": "1",
                 "?opt": "whatever"
@@ -202,16 +202,16 @@
             "content-type": "application/json"
         }
     },
-    "get_mocks": {
-        "url": "/mocks",
+    "get_rules": {
+        "url": "/rules",
         "method": "GET",
         "status": 200,
         "response": {
-            "mocks": [
+            "rules": [
                 {
-                    "name": "mock123",
+                    "name": "rule123",
                     "method": "GET",
-                    "path": "/mocks/123",
+                    "path": "/rules/123",
                     "query_params": {
                         "q": "1",
                         "?opt": "whatever"
@@ -240,8 +240,8 @@
             "content-type": "application/json"
         }
     },
-    "delete_mock": {
-        "url": "/mocks/mock123",
+    "delete_rule": {
+        "url": "/rules/rule123",
         "method": "DELETE",
         "response": {
             "success": true
@@ -252,8 +252,8 @@
             "content-type": "application/json"
         }
     },
-    "delete_mock_with_handler": {
-        "url": "/mocks/mock345",
+    "delete_rule_with_handler": {
+        "url": "/rules/rule345",
         "method": "DELETE",
         "response": {
             "success": true

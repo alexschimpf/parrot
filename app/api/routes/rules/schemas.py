@@ -13,7 +13,7 @@ class HTTPMethod(enum.StrEnum):
     OPTIONS = 'OPTIONS'
 
 
-class Mock(BaseModel):
+class Rule(BaseModel):
     name: str = Field(min_length=1, max_length=256)
     method: HTTPMethod
     path: str = Field(min_length=1)
@@ -26,9 +26,9 @@ class Mock(BaseModel):
     response_headers: dict[str, str] | None = None
 
 
-class Mocks(BaseModel):
-    mocks: list[Mock]
+class Rules(BaseModel):
+    rules: list[Rule]
 
 
-class MockNames(BaseModel):
+class RuleNames(BaseModel):
     names: list[str]

@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.exceptions.handlers import get_exception_handlers
 from app.api.schemas import ErrorResponseModel
-from app.service.mock.mock_manager import MockManager
+from app.service.rule_manager import RuleManager
 
 
 class Bootstrap:
@@ -48,7 +48,7 @@ class Bootstrap:
 
     @staticmethod
     def _init_services() -> None:
-        MockManager.load_mocks()
+        RuleManager.load_rules()
 
     @staticmethod
     def _register_routes(app: FastAPI) -> None:

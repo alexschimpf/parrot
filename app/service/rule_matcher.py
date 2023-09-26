@@ -1,83 +1,83 @@
 import re
 from starlette.datastructures import QueryParams, Headers
 
-from app.service.mock.mock_manager import MockManager, Mock
+from app.service.rule_manager import RuleManager, Rule
 
 
-class MockMatcher:
+class RuleMatcher:
 
     @classmethod
-    def get_matching_mock(
+    def get_matching_rule(
         cls,
         method: str,
         path: str,
         query_params: QueryParams,
         headers: Headers,
         cookies: dict[str, str]
-    ) -> Mock | None:
-        mocks = MockManager.get_mocks()
-        for mock in mocks:
-            if cls._mock_matches_request(
-                mock=mock,
+    ) -> Rule | None:
+        rules = RuleManager.get_rules()
+        for rule in rules:
+            if cls._rule_matches_request(
+                rule=rule,
                 method=method,
                 path=path,
                 query_params=query_params,
                 headers=headers,
                 cookies=cookies
             ):
-                return mock
+                return rule
 
         return None
 
     @classmethod
-    def _mock_matches_request(
+    def _rule_matches_request(
         cls,
-        mock: Mock,
+        rule: Rule,
         method: str,
         path: str,
         query_params: QueryParams,
         headers: Headers,
         cookies: dict[str, str]
     ) -> bool:
-        mock.path = cls._normalize_path(path=mock.path)
+        rule.path = cls._normalize_path(path=rule.path)
         path = cls._normalize_path(path=path)
 
         return all((
-            mock.path == path,
-            mock.method.lower() == method.lower(),
-            cls._query_params_match(mock=mock, query_params=query_params),
-            cls._headers_match(mock=mock, headers=headers),
-            cls._cookies_match(mock=mock, cookies=cookies)
+            rule.path == path,
+            rule.method.lower() == method.lower(),
+            cls._query_params_match(rule=rule, query_params=query_params),
+            cls._headers_match(rule=rule, headers=headers),
+            cls._cookies_match(rule=rule, cookies=cookies)
         ))
 
     @classmethod
-    def _query_params_match(cls, mock: Mock, query_params: QueryParams) -> bool:
-        if not mock.query_params:
+    def _query_params_match(cls, rule: Rule, query_params: QueryParams) -> bool:
+        if not rule.query_params:
             return True
 
-        for key, value in mock.query_params.items():
+        for key, value in rule.query_params.items():
             if not cls._matches_regex(key=key, value=value, actual=query_params):
                 return False
 
         return True
 
     @classmethod
-    def _headers_match(cls, mock: Mock, headers: Headers) -> bool:
-        if not mock.headers:
+    def _headers_match(cls, rule: Rule, headers: Headers) -> bool:
+        if not rule.headers:
             return True
 
-        for key, value in mock.headers.items():
+        for key, value in rule.headers.items():
             if not cls._matches_regex(key=key, value=value, actual=headers):
                 return False
 
         return True
 
     @classmethod
-    def _cookies_match(cls, mock: Mock, cookies: dict[str, str]) -> bool:
-        if not mock.cookies:
+    def _cookies_match(cls, rule: Rule, cookies: dict[str, str]) -> bool:
+        if not rule.cookies:
             return True
 
-        for key, value in mock.cookies.items():
+        for key, value in rule.cookies.items():
             if not cls._matches_regex(key=key, value=value, actual=cookies):
                 return False
 
