@@ -15,6 +15,7 @@ GET /something?q=1
 }
 
 GET /something?q=2
+=>
 {
     "some": "other mock data"
 }
