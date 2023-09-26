@@ -43,7 +43,7 @@ class RuleMatcher:
         path = cls._normalize_path(path=path)
 
         return all((
-            rule.path == path,
+            re.match(rule.path, path),
             rule.method.lower() == method.lower(),
             cls._query_params_match(rule=rule, query_params=query_params),
             cls._headers_match(rule=rule, headers=headers),

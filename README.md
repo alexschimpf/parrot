@@ -25,10 +25,10 @@ Note: The base URL path prefix is "/match". The part of the URL path you want to
 
 You can specify custom mocking rules to return the responses you want.
 - Match HTTP method
-- Match URL path
-- Match query parameters
-- Match headers
-- Match cookies
+- Match URL path regex
+- Match query parameter regexes
+- Match header regexes
+- Match cookie regexes
 
 You can also specify some of these parameters as optional, meaning they will be matched only if they are present in the request data,
 In many cases, static responses may not be enough. You may want more dynamic control over responses.
@@ -70,6 +70,7 @@ The Swagger docs describe the inputs/outputs.
 
 If you want to load mock rules into your docker container, you'll need to understand the required format.
 Mock rules are specified via JSON files. Handlers are specified via Python files as described below in the *Dynamic Response Handlers* section.
+If more than one rule matches the request context, the one with the lexicographically smaller name wins.
 
 Here is an example mock rule JSON file:
 ```json

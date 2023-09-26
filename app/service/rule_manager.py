@@ -65,7 +65,7 @@ class RuleManager:
     @classmethod
     def get_rules(cls) -> list[Rule]:
         rules_by_name = cls.get_rules_by_name()
-        return list(rules_by_name.values())
+        return list(dict(sorted(rules_by_name.items())).values())
 
     @classmethod
     def get_rule(cls, name: str) -> Rule | None:
