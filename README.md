@@ -8,18 +8,20 @@ You can configure Parrot to return mock responses based on given request data.
 For example, you could configure it to behave like so:
 
 ```
-GET /something?q=1
+GET /match/something?q=1
 =>
 {
     "some": "mock data"
 }
 
-GET /something?q=2
+GET /match/something?q=2
 =>
 {
     "some": "other mock data"
 }
 ```
+
+Note: The base URL path prefix is "/match". The part of the URL path you want to match a rule against should come after.
 
 You can specify custom mocking rules to return the responses you want.
 - Match HTTP method
